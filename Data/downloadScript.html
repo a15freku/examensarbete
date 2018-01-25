@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Download Script</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="companyInfo.js"></script>
+</head>
+<body>
+  <script>
+
+    //Get company "Symbol"
+    var quantity = 2; //Number of CSV-files to dowload
+    var symbol = data; //From companyInfo.js
+    var listOfSymbols = [];
+    for (i = 0; i < quantity; i++) { 
+      listOfSymbols.push(symbol[i].Symbol);
+    }
+
+    //Download file from each company in the list
+    for (i = 0; i < quantity; i++) {
+      symbolOfCompany = listOfSymbols[i];
+      console.log(i + ": " + symbolOfCompany);
+      blobData(symbolOfCompany);
+    }
+
+    //Download blob data to file
+    function blobData(company){
+      var companySymbol = company;
+      var saveData = (function () {
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        return function (url) {
+          a.href = url;
+          a.download = companySymbol;
+          a.click();
+        };
+      }());
+        
+      var url = 'http://finance.google.com/finance/historical?q=NASDAQ:' + companySymbol + '&output=csv';
+
+      saveData(url);
+    }
+    
+  </script>
+</body>
+</html>
