@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>API</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="companyNames.js"></script>
+</head>
+<body>
+  <script>
+    //Get company names
+    var quantity = 100;
+    var names = data; //From companyNames.js
+    var companyNames = [];
+    for (i = 0; i < quantity; i++) { 
+      companyNames.push(names[i].Symbol);
+    }
+    //Press f12 in Chrome to see output
+    for (i = 0; i < quantity; i++) { 
+      console.log(i + ": " + companyNames[i]);
+    }
+    //Ajax request
+  </script>
+</body>
+</html>
