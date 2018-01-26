@@ -40,8 +40,8 @@
       ctx.stroke();
       ctx.closePath();
 
-      //Graph 2
-      ctx.beginPath();
+      //Graph 2 static
+      /* ctx.beginPath();
       ctx.strokeStyle="green";
       ctx.moveTo(0,data[0].Open);
       ctx.lineTo(0,data[1].Open);
@@ -51,6 +51,18 @@
       ctx.lineTo(400,data[5].Open);
       ctx.lineTo(500,data[6].Open);
       ctx.lineTo(600,data[7].Open);
+      ctx.stroke();
+      ctx.closePath(); */
+
+      //Loop data
+      var lengthBetweenPoints = 5;
+      var days = 100;
+      ctx.beginPath();
+      ctx.strokeStyle="blue";
+      ctx.moveTo(0,data[0].Open);
+      for(i = 1; i < days; i++) {
+          ctx.lineTo(i * lengthBetweenPoints,data[i].Open);
+      }
       ctx.stroke();
       ctx.closePath();
 
