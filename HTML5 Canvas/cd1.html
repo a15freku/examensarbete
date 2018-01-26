@@ -5,19 +5,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Page Title</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="../Data/aaon.js"></script>
 </head>
 <body>
   <canvas width="600" height="300" id="canvas"></canvas>
   <script>
+      var data = aaon;
+
       var canvas = document.getElementById('canvas');
       ctx = canvas.getContext('2d');
   
       ctx.translate(0, canvas.height);
       ctx.scale(1, -1);
   
-      //ctx.fillStyle = "blue";
-      //ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+      //Lines for x and y-axis
       ctx.beginPath();
       ctx.moveTo(0, 0);
       ctx.lineTo(600, 0);
@@ -26,6 +27,7 @@
       ctx.stroke();
       ctx.closePath();
 
+      //Graph 1
       ctx.beginPath();
       ctx.moveTo(0,0);
       ctx.lineTo(0,30);
@@ -35,6 +37,20 @@
       ctx.lineTo(400,280.34);
       ctx.lineTo(500,290.23);
       ctx.lineTo(600,125.22);
+      ctx.stroke();
+      ctx.closePath();
+
+      //Graph 2
+      ctx.beginPath();
+      ctx.strokeStyle="green";
+      ctx.moveTo(0,data[0].Open);
+      ctx.lineTo(0,data[1].Open);
+      ctx.lineTo(100,data[2].Open);
+      ctx.lineTo(200,data[3].Open);
+      ctx.lineTo(300,data[4].Open);
+      ctx.lineTo(400,data[5].Open);
+      ctx.lineTo(500,data[6].Open);
+      ctx.lineTo(600,data[7].Open);
       ctx.stroke();
       ctx.closePath();
 
