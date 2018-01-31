@@ -48,7 +48,7 @@
     var days = 100;
     var graph = document.getElementById('graph3');
     var polyData = "";
-    for(i = 1; i < days; i++){
+    for(i = 0; i < (days - 1); i++){
       polyData += (i * lengthBetweenPoints) + "," + data[i].Open + " ";
     }
     graph.setAttribute("points", polyData);
