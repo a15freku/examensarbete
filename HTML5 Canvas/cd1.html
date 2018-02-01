@@ -10,7 +10,25 @@
 <body>
   <canvas width="600" height="300" id="canvas"></canvas>
   <script>
-      var data = aaon;
+    var data = aaon;
+
+    function normalize(cnt){
+      var min=1000000;
+      var max=-1000000;
+      for(var i=0;i<cnt;i++) {
+          var val=data[i].Open;
+          min=Math.min(min,val);
+          max=Math.max(max,val);
+      }
+      var range=max-min;
+      for(var i=0;i<cnt;i++) {
+          data[i].normOpen=(data[i].Open-min)/range;
+          console.log(data[i].Open, data[i].normOpen);
+      }
+          
+          
+      }
+      normalize(100);
 
       var canvas = document.getElementById('canvas');
       ctx = canvas.getContext('2d');
@@ -40,28 +58,14 @@
       ctx.stroke();
       ctx.closePath();
 
-      //Graph 2 static
-      /* ctx.beginPath();
-      ctx.strokeStyle="green";
-      ctx.moveTo(0,data[0].Open);
-      ctx.lineTo(0,data[1].Open);
-      ctx.lineTo(100,data[2].Open);
-      ctx.lineTo(200,data[3].Open);
-      ctx.lineTo(300,data[4].Open);
-      ctx.lineTo(400,data[5].Open);
-      ctx.lineTo(500,data[6].Open);
-      ctx.lineTo(600,data[7].Open);
-      ctx.stroke();
-      ctx.closePath(); */
-
       //Loop data
       var lengthBetweenPoints = 5;
       var days = 100;
       ctx.beginPath();
       ctx.strokeStyle="blue";
-      ctx.moveTo(0,data[0].Open);
+      ctx.moveTo(0,data[0].normOpen * 300);
       for(i = 1; i < days; i++) {
-          ctx.lineTo(i * lengthBetweenPoints,data[i].Open);
+          ctx.lineTo(i * lengthBetweenPoints,data[i].normOpen * 300);
       }
       ctx.stroke();
       ctx.closePath();
