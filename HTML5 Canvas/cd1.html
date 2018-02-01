@@ -16,61 +16,46 @@
       var min=1000000;
       var max=-1000000;
       for(var i=0;i<cnt;i++) {
-          var val=data[i].Open;
-          min=Math.min(min,val);
-          max=Math.max(max,val);
+        var val=data[i].Open;
+        min=Math.min(min,val);
+        max=Math.max(max,val);
       }
       var range=max-min;
       for(var i=0;i<cnt;i++) {
-          data[i].normOpen=(data[i].Open-min)/range;
-          console.log(data[i].Open, data[i].normOpen);
+        data[i].normOpen=(data[i].Open-min)/range;
+        console.log(data[i].Open, data[i].normOpen);
       }
           
           
-      }
-      normalize(100);
+    }
+    normalize(100);
 
-      var canvas = document.getElementById('canvas');
-      ctx = canvas.getContext('2d');
-  
-      ctx.translate(0, canvas.height);
-      ctx.scale(1, -1);
-  
-      //Lines for x and y-axis
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(600, 0);
-      ctx.moveTo(0, 0);
-      ctx.lineTo(0, 300);
-      ctx.stroke();
-      ctx.closePath();
+    var canvas = document.getElementById('canvas');
+    ctx = canvas.getContext('2d');
 
-      //Graph 1
-      ctx.beginPath();
-      ctx.moveTo(0,0);
-      ctx.lineTo(0,30);
-      ctx.lineTo(100,90);
-      ctx.lineTo(200,40);
-      ctx.lineTo(300,180.45);
-      ctx.lineTo(400,280.34);
-      ctx.lineTo(500,290.23);
-      ctx.lineTo(600,125.22);
-      ctx.stroke();
-      ctx.closePath();
+    ctx.translate(0, canvas.height);
+    ctx.scale(1, -1);
 
-      //Loop data
-      var lengthBetweenPoints = 5;
-      var days = 100;
-      ctx.beginPath();
-      ctx.strokeStyle="blue";
-      ctx.moveTo(0,data[0].normOpen * 300);
-      for(i = 1; i < days; i++) {
-          ctx.lineTo(i * lengthBetweenPoints,data[i].normOpen * 300);
-      }
-      ctx.stroke();
-      ctx.closePath();
+    //Lines for x and y-axis
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(600, 0);
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, 300);
+    ctx.stroke();
+    ctx.closePath();
 
-  
-    </script>
+    //Loop data
+    var lengthBetweenPoints = 5;
+    var days = 100;
+    ctx.beginPath();
+    ctx.strokeStyle="blue";
+    ctx.moveTo(0,data[0].normOpen * 300);
+    for(i = 1; i < days; i++) {
+        ctx.lineTo(i * lengthBetweenPoints,data[i].normOpen * 300);
+    }
+    ctx.stroke();
+    ctx.closePath();
+  </script>
 </body>
 </html>
