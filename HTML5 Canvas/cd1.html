@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,26 +8,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="../Data/aaon.js"></script>
 </head>
+
 <body>
   <canvas width="600" height="300" id="canvas"></canvas>
   <script>
     var data = aaon;
 
-    function normalize(cnt){
-      var min=1000000;
-      var max=-1000000;
-      for(var i=0;i<cnt;i++) {
-        var val=data[i].Open;
-        min=Math.min(min,val);
-        max=Math.max(max,val);
+    function normalize(cnt) {
+      var min = 1000000;
+      var max = -1000000;
+      for (var i = 0; i < cnt; i++) {
+        var val = data[i].Open;
+        min = Math.min(min, val);
+        max = Math.max(max, val);
       }
-      var range=max-min;
-      for(var i=0;i<cnt;i++) {
-        data[i].normOpen=(data[i].Open-min)/range;
+      var range = max - min;
+      for (var i = 0; i < cnt; i++) {
+        data[i].normOpen = (data[i].Open - min) / range;
         console.log(data[i].Open, data[i].normOpen);
       }
-          
-          
+
+
     }
     normalize(100);
 
@@ -49,13 +51,14 @@
     var lengthBetweenPoints = 5;
     var days = 100;
     ctx.beginPath();
-    ctx.strokeStyle="blue";
-    ctx.moveTo(0,data[0].normOpen * 300);
-    for(i = 1; i < days; i++) {
-        ctx.lineTo(i * lengthBetweenPoints,data[i].normOpen * 300);
+    ctx.strokeStyle = "blue";
+    ctx.moveTo(0, data[0].normOpen * 300);
+    for (i = 1; i < days; i++) {
+      ctx.lineTo(i * lengthBetweenPoints, data[i].normOpen * 300);
     }
     ctx.stroke();
     ctx.closePath();
   </script>
 </body>
+
 </html>
