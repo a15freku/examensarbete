@@ -12,69 +12,69 @@
 
 <body>
   <canvas width="600" height="300" id="canvas"></canvas>
-  <!-- TODO: set width to data.length * 5 -->
   <script>
-    var data = aaon;
-
-    function normalize(cnt) {
+    // Normalize data
+    function normalize(dataInput) {
+      var cnt = dataInput.length;
       var min = 1000000;
       var max = -1000000;
       for (var i = 0; i < cnt; i++) {
-        var val = data[i].Open;
+        var val = dataInput[i].Open;
         min = Math.min(min, val);
         max = Math.max(max, val);
       }
       var range = max - min;
       for (var i = 0; i < cnt; i++) {
-        data[i].normOpen = (data[i].Open - min) / range;
-        console.log(data[i].Open, data[i].normOpen);
+        dataInput[i].normOpen = (dataInput[i].Open - min) / range;
+       // console.log(dataInput[i].Open, dataInput[i].normOpen);
       }
+      return dataInput;
     }
-    normalize(100);
+
+    // Loop data
+    function loopData(data) {
+      var lengthBetweenPoints = data.length / (data.length / 5);
+      var days = data.length;
+      ctx.beginPath();
+      ctx.strokeStyle = "green";
+      ctx.moveTo(0, data[0].normOpen * 300);
+      for (i = 1; i < days; i++) {
+        ctx.lineTo(i * lengthBetweenPoints, data[i].normOpen * 300);
+      }
+      ctx.stroke();
+      ctx.closePath();
+    }
+
+    // Variables
+    var data = normalize(aaon);
+    var data2 = normalize(abax);
 
     var canvas = document.getElementById('canvas');
     ctx = canvas.getContext('2d');
-
+    canvas.width = data.length * 5;
     ctx.translate(0, canvas.height);
     ctx.scale(1, -1);
 
-    //Lines for x and y-axis
+    // Lines for x and y-axis
     ctx.beginPath();
     ctx.moveTo(0, 0);
-    ctx.lineTo(600, 0);
+    ctx.lineTo(canvas.width, 0);
     ctx.moveTo(0, 0);
     ctx.lineTo(0, 300);
+    ctx.lineTo(canvas.width, 300);
+    ctx.lineTo(canvas.width, -300);
     ctx.stroke();
     ctx.closePath();
 
-    //Loop data
-    var lengthBetweenPoints = 5;
-    var days = 100;
-    ctx.beginPath();
-    ctx.strokeStyle = "blue";
-    ctx.moveTo(0, data[0].normOpen * 300);
-    for (i = 1; i < days; i++) {
-      ctx.lineTo(i * lengthBetweenPoints, data[i].normOpen * 300);
+    // Write graphs in diagram
+    var startDate = new Date();
+    for(i = 0; i < 200; i++) {
+      loopData(data);
+      loopData(data2);
     }
-    ctx.stroke();
-    ctx.closePath();
-
-    var data = abax;
-    normalize(120);
-
-    //Loop data
-    var lengthBetweenPoints = 5;
-    var days = 140;
-    ctx.beginPath();
-    ctx.strokeStyle = "green";
-    ctx.moveTo(0, data[0].normOpen * 300);
-    for (i = 1; i < days; i++) {
-      ctx.lineTo(i * lengthBetweenPoints, data[i].normOpen * 300);
-    }
-    ctx.stroke();
-    ctx.closePath();
-
-    console.log(data.length);
+    var endDate = new Date();
+    var seconds = (endDate.getTime() - startDate.getTime()) / 1000;
+    console.log("Seconds: " + seconds);
   </script>
 </body>
 
