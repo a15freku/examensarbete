@@ -12,6 +12,7 @@
 
 <body>
   <canvas width="600" height="300" id="canvas"></canvas>
+  <!-- TODO: set width to data.length * 5 -->
   <script>
     var data = aaon;
 
@@ -59,7 +60,7 @@
     ctx.closePath();
 
     var data = abax;
-    normalize(100);
+    normalize(120);
 
     //Loop data
     var lengthBetweenPoints = 5;
@@ -72,6 +73,8 @@
     }
     ctx.stroke();
     ctx.closePath();
+
+    console.log(data.length);
   </script>
 </body>
 
