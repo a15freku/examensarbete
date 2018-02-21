@@ -7,6 +7,7 @@
   <title>HTML5 Canvas</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="../Data/aaon.js"></script>
+  <script type="text/javascript" src="../Data/abax.js"></script>
 </head>
 
 <body>
@@ -50,6 +51,21 @@
     var days = 100;
     ctx.beginPath();
     ctx.strokeStyle = "blue";
+    ctx.moveTo(0, data[0].normOpen * 300);
+    for (i = 1; i < days; i++) {
+      ctx.lineTo(i * lengthBetweenPoints, data[i].normOpen * 300);
+    }
+    ctx.stroke();
+    ctx.closePath();
+
+    var data = abax;
+    normalize(100);
+
+    //Loop data
+    var lengthBetweenPoints = 5;
+    var days = 140;
+    ctx.beginPath();
+    ctx.strokeStyle = "green";
     ctx.moveTo(0, data[0].normOpen * 300);
     for (i = 1; i < days; i++) {
       ctx.lineTo(i * lengthBetweenPoints, data[i].normOpen * 300);
