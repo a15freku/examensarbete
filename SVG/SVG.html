@@ -28,32 +28,43 @@
     </g>
   </svg>
   <script>
-    var data = aaon;
-
-    function normalize(cnt) {
+    // Normalize
+    function normalize(dataInput) {
+      var cnt = dataInput.length;
       var min = 1000000;
       var max = -1000000;
       for (var i = 0; i < cnt; i++) {
-        var val = data[i].Open;
+        var val = dataInput[i].Open;
         min = Math.min(min, val);
         max = Math.max(max, val);
       }
       var range = max - min;
       for (var i = 0; i < cnt; i++) {
-        data[i].normOpen = (data[i].Open - min) / range;
-        console.log(data[i].Open, data[i].normOpen);
+        dataInput[i].normOpen = (dataInput[i].Open - min) / range;
+       // console.log(dataInput[i].Open, dataInput[i].normOpen);
       }
+      return dataInput;
     }
-    normalize(100);
 
-    var lengthBetweenPoints = 5;
-    var days = 100;
-    var graph = document.getElementById('graph3');
-    var polyData = "";
-    for (i = 0; i < days; i++) {
-      polyData += (i * lengthBetweenPoints) + "," + data[i].normOpen * 300 + " ";
+    // Loop
+    function loopData(stockData) {
+      var lengthBetweenPoints = 5;
+      var days = 100;
+      var graph = document.getElementById('graph3');
+      var polyData = "";
+      for (i = 0; i < days; i++) {
+        polyData += (i * lengthBetweenPoints) + "," + stockData[i].normOpen * 300 + " ";
+      }
+      graph.setAttribute("points", polyData);
     }
-    graph.setAttribute("points", polyData);
+    
+    var data = normalize(aaon);
+
+    var startDate = new Date();
+    loopData(data);
+    var endDate = new Date();
+    var seconds = (endDate.getTime() - startDate.getTime()) / 1000;
+    console.log("Seconds: " + seconds);
 
   </script>
 </body>
