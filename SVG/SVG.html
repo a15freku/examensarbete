@@ -61,11 +61,13 @@
     var data = normalize(aaon);
 
     var startDate = new Date();
-    loopData(data);
+    for(var i = 0; i < 80; i++) {
+      loopData(data);
+    }
     var endDate = new Date();
     var seconds = (endDate.getTime() - startDate.getTime()) / 1000;
     console.log("Seconds: " + seconds);
-
+    
   </script>
 </body>
 
