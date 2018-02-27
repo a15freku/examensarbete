@@ -1,4 +1,6 @@
-# x-job
-Line chart SVG vs. HTML5 Canvas
+# examensarbete
+Interaktiva linjediagram med SVG och HTML5 Canvas.
 
-Kod till examensarbete.
+Kod till examensarbete 2018.
+
+Av: Fredrik Kumlin
