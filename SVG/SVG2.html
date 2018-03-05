@@ -6,7 +6,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Page Title</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
   <script type="text/javascript" src="../Data/aaon.js"></script>
   <style>
     #svgContainer {
@@ -16,7 +15,17 @@
     }
   </style>
   <script>
-    function CreateSVG() {
+    // Draw lines in graph
+    function drawGraph(polyline) {
+      polyline.setAttributeNS(null, 'stroke', "green");
+      polyline.setAttributeNS(null, 'stroke-width', 1);
+      polyline.setAttributeNS(null, 'points', "460,470 300,220 70,80 100,20");
+      polyline.setAttributeNS(null, 'fill', "none");
+      polyline.setAttributeNS(null, 'opacity', 1.0);
+      return polyline;
+    }
+
+    function createSVG() {
       var xmlns = "http://www.w3.org/2000/svg";
       // Set height and width
       var boxWidth = 600;
@@ -36,29 +45,26 @@
       // Draw borders
       var coords = "0,0 0,300 600,300 600,0 -300,0";
       var path = document.createElementNS (xmlns, "polyline");
-      path.setAttributeNS (null, 'stroke', "black");
-      path.setAttributeNS (null, 'stroke-width', 1);
-      path.setAttributeNS (null, 'points', coords);
-      path.setAttributeNS (null, 'fill', "none");
-      path.setAttributeNS (null, 'opacity', 1.0);
+      path.setAttributeNS(null, 'stroke', "black");
+      path.setAttributeNS(null, 'stroke-width', 1);
+      path.setAttributeNS(null, 'points', coords);
+      path.setAttributeNS(null, 'fill', "none");
+      path.setAttributeNS(null, 'opacity', 1.0);
       g.appendChild (path);
 
       // Draw lines in graph
       var polyline = document.createElementNS(xmlns, "polyline");
-      polyline.setAttributeNS(null, 'stroke', "green");
-      polyline.setAttributeNS(null, 'stroke-width', 1);
-      polyline.setAttributeNS(null, 'points', "460,470 300,220 70,80 100,20");
-      polyline.setAttributeNS(null, 'fill', "none");
-      polyline.setAttributeNS(null, 'opacity', 1.0);
-      g.appendChild(polyline);
+      g.appendChild(drawGraph(polyline));
 
+      // Add SVG element to div-container
       var svgContainer = document.getElementById("svgContainer");
       svgContainer.appendChild(svgElem);
     }
+    
   </script>
 </head>
 
-<body onload="CreateSVG()">
+<body onload="createSVG()">
   <div id="svgContainer"></div>
 </body>
 
