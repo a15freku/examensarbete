@@ -12,7 +12,7 @@
     #svgContainer {
       width: 600px;
       height: 300px;
-      background-color: black;
+      background-color: white;
     }
   </style>
   <script>
@@ -27,13 +27,23 @@
       svgElem.setAttributeNS(null, "viewBox", "0 0 " + boxWidth + " " + boxHeight);
       svgElem.setAttributeNS(null, "width", boxWidth);
       svgElem.setAttributeNS(null, "height", boxHeight);
-      
-      // Create group element
+
+      // Draw group element
       var g = document.createElementNS(xmlns, "g");
       svgElem.appendChild(g);
       g.setAttributeNS(null, 'transform', 'matrix(1,0,0,-1,0,300)');
 
-      // Create polyline
+      // Draw borders
+      var coords = "0,0 0,300 600,300 600,0 -300,0";
+      var path = document.createElementNS (xmlns, "polyline");
+      path.setAttributeNS (null, 'stroke', "black");
+      path.setAttributeNS (null, 'stroke-width', 1);
+      path.setAttributeNS (null, 'points', coords);
+      path.setAttributeNS (null, 'fill', "none");
+      path.setAttributeNS (null, 'opacity', 1.0);
+      g.appendChild (path);
+
+      // Draw lines in graph
       var polyline = document.createElementNS(xmlns, "polyline");
       polyline.setAttributeNS(null, 'stroke', "green");
       polyline.setAttributeNS(null, 'stroke-width', 1);
