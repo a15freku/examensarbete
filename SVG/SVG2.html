@@ -15,8 +15,35 @@
     }
   </style>
   <script>
+
     // Retrive JSON object from data.js
     var data = stockObj;
+
+    // Normalize data
+    function normalize(dataInput) {
+      var cnt = dataInput.length;
+      var min = 1000000;
+      var max = -1000000;
+      for (var i = 0; i < cnt; i++) {
+        var val = dataInput[i].Open;
+        min = Math.min(min, val);
+        max = Math.max(max, val);
+      }
+      var range = max - min;
+      for (var i = 0; i < cnt; i++) {
+        dataInput[i].normOpen = (dataInput[i].Open - min) / range;
+       // console.log(dataInput[i].Open, dataInput[i].normOpen);
+      }
+      return dataInput;
+    }
+
+    // Normalized data
+    // var normData = normalize(data);
+
+    // Creates more data from existing data
+    function offsetData() {
+
+    }
 
     // Returns data in string (attr points)
     function polyData(index) {
