@@ -9,7 +9,7 @@
   <script type="text/javascript" src="../Data/data.js"></script>
   <style>
     #svgContainer {
-      width: 600px;
+      width: 1250px;
       height: 300px;
       background-color: white;
     }
@@ -48,7 +48,7 @@
     // Returns data in string (attr points)
     function polyData(index) {
       var polyData = "";
-      for(var i = 0; i < 100; i++) {
+      for(var i = 0; i < 251; i++) {
         polyData += (i * 5) + "," + data.data[index].value[i] + " ";
       }
 
@@ -80,7 +80,7 @@
       var xmlns = "http://www.w3.org/2000/svg";
 
       // Set height and width
-      var boxWidth = 600;
+      var boxWidth = 1250;
       var boxHeight = 300;
       
       // Create SVG root element
@@ -95,7 +95,7 @@
       g.setAttributeNS(null, 'transform', 'matrix(1,0,0,-1,0,300)');
 
       // Draw borders
-      var coords = "0,0 0,300 600,300 600,0 -300,0";
+      var coords = "0,0 0,300 1250,300 1250,0 0,0";
       var path = document.createElementNS (xmlns, "polyline");
       path.setAttributeNS(null, 'stroke', "black");
       path.setAttributeNS(null, 'stroke-width', 1);
@@ -106,7 +106,7 @@
 
       // Draw lines in graph
       var polyline;
-      for(var i = 0; i < 3; i++) {
+      for(var i = 0; i < 50; i++) {
         polyline = document.createElementNS(xmlns, "polyline");
         g.appendChild(drawGraph(polyline, polyData(i)));
       }
