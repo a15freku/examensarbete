@@ -20,6 +20,29 @@
     // Retrive JSON object from data.js
     var data = stockObj.data;
 
+
+    // Random seed
+    function randSeed() {
+
+    }
+
+    // Creates more data from existing data
+    function applyOffset(input) {
+      // Apply Offset rand 10%-20%
+      var input = input;
+
+      for(var i = 0; i < length; i++) {
+
+        for(var j = 0; j < length; j++) {
+          
+          var val = input[i].value[j];
+        
+        }
+
+      }
+      // Return offsetData
+    }
+
     // New Normalize data function
     function normalize(input){
       var input = input;
@@ -53,18 +76,6 @@
 
     // Normalized data
     data = normalize(data);
-
-    // Random seed
-    function randSeed() {
-
-    }
-
-    // Creates more data from existing data
-    function applyOffset() {
-      // Apply Offset rand 10%-20%
-
-      // Return offsetData
-    }
     
     // Prepare Data
     function prepData(quantity) {
@@ -157,7 +168,7 @@
       var lessThen = false;
       var count = 0;
       for(var i = 0; i < 50; i++) {
-        var test = data.data[i].value.length;
+        var test = cdata[i].value.length;
         console.log(test);
         if(test < 251){
           lessThen = true;
