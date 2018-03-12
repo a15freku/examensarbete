@@ -31,15 +31,21 @@
       // Apply Offset rand 10%-20%
       var input = input;
 
-      for(var i = 0; i < length; i++) {
+      for(var i = 0; i < 100; i++) {
 
-        for(var j = 0; j < length; j++) {
+        var obj = input[i];
+        input[i+50] = obj;
+        /*
+        for(var j = 0; j < 2; j++) {
           
           var val = input[i].value[j];
         
         }
+        */
 
       }
+      console.log(input.length);
+      console.log(input);
       // Return offsetData
     }
 
