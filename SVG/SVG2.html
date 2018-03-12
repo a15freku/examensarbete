@@ -168,10 +168,11 @@
       var lessThen = false;
       var count = 0;
       for(var i = 0; i < 50; i++) {
-        var test = cdata[i].value.length;
+        var test = data[i].value.length;
         console.log(test);
         if(test < 251){
           lessThen = true;
+          console.log(data[i].name);
           count++;
           console.log("Found error on iteration/line(-2) in data.js: " + i);
         }
