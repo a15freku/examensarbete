@@ -28,25 +28,27 @@
 
     // Creates more data from existing data
     function applyOffset(input) {
-      // Apply Offset rand 10%-20%
+      
       var input = input;
 
-      for(var i = 0; i < 100; i++) {
-
+      for(var i = 0; i < 450; i++) {
+        // Create more data
         var obj = input[i];
         input[i+50] = obj;
-        /*
-        for(var j = 0; j < 2; j++) {
-          
-          var val = input[i].value[j];
+
+        // Apply Offset rand 10%-20%
+        for(var j = 0; j < 251; j++) {
+          var max = 2;
+          var min = 1;
+          var val = input[i+50].value[j];
+          input[i+50].value[j] = val * (Math.random() * (max - min) + min);
         
         }
-        */
 
       }
-      console.log(input.length);
-      console.log(input);
+
       // Return offsetData
+      return input;
     }
 
     // New Normalize data function
@@ -81,7 +83,9 @@
     }
 
     // Normalized data
+    data = applyOffset(data);
     data = normalize(data);
+    console.log(data.length);
     
     // Prepare Data
     function prepData(quantity) {
@@ -159,7 +163,7 @@
 
       // Draw lines in graph
       var polyline;
-      for(var i = 0; i < 50; i++) {
+      for(var i = 0; i < data.length; i++) {
         polyline = document.createElementNS(xmlns, "polyline");
         g.appendChild(drawGraph(polyline, polyData(i)));
       }
@@ -173,7 +177,7 @@
     function test() {
       var lessThen = false;
       var count = 0;
-      for(var i = 0; i < 50; i++) {
+      for(var i = 0; i < data.length; i++) {
         var test = data[i].value.length;
         console.log(test);
         if(test < 251){
