@@ -85,26 +85,21 @@
     data = applyOffset(data);
     data = normalize(data);
 
-    // Updates attributes in graph
+    // Change opacity from 100% to 0,
     function modifyGraph() {
-      // Target group element
+
       var svgElement = document.getElementById("diagram"); // get the parent node
-
-      // Select all polylines
       var polylines = svgElement.getElementsByTagName('polyline'); // get child nodes 
-      
-      // Start time for testing
-      var startDate = new Date();
-
-      // Change opacity
       var polyLength = polylines.length;
-      for (var i = 0; i < polyLength; i++)
-      { 
-        polylines[i].setAttribute("opacity", 0);
-        //polylines[i].setAttribute("fill-opacity", 0.1);
-        //polylines[i].setAttribute("stroke-opacity", 0.1);
-      }
 
+      var startDate = new Date();
+      // Change opacity
+      for(var i = 10; i >= 0; i--) {
+        for (var j = 0; j < polyLength; j++)
+        { 
+          polylines[j].setAttribute("opacity", i/10);
+        }
+      }
       var endDate = new Date();
       var milliseconds = (endDate.getTime() - startDate.getTime());
       console.log("ms: " + milliseconds);
@@ -150,7 +145,7 @@
       g.setAttributeNS(null, 'id', 'diagram');
       svgElem.appendChild(g);
       
-
+      /*
       // Draw borders
       var coords = "0,0 0,300 1250,300 1250,0 0,0";
       var path = document.createElementNS (xmlns, "polyline");
@@ -160,6 +155,7 @@
       path.setAttributeNS(null, 'fill', "none");
       path.setAttributeNS(null, 'opacity', 1.0);
       g.appendChild(path);
+      */
 
       // Draw lines in graph
       var polyline;
@@ -180,11 +176,12 @@
 
     // Test
     function testFunction() {
-      for(var i = 0; i < 10; i++ ){
+      for(var i = 0; i < 20; i++ ){
+        console.log("--- Test " + i + " ---");
         modifyGraph();
       }
-      info();
     }
+   // testFunction();
 
   </script>
 </head>
