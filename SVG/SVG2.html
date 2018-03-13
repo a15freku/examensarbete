@@ -16,7 +16,7 @@
     }
   </style>
   <script>
-
+ 
     // Retrive JSON object from data.js
     var data = stockObj.data;
 
@@ -30,19 +30,21 @@
     function applyOffset(input) {
       
       var input = input;
-      graphs = 2000 - 50;
+      // Set how many graphs should be used
+      graphs = 200 - 50;
 
       for(var i = 0; i < graphs; i++) {
         // Create more data
         var obj = input[i];
         input[i+50] = obj;
 
-        var max = 1.30;
-        var min = 0.70;
-        var r = Math.random() * (max - min) + min;
-
         // Apply Offset
         for(var j = 0; j < 251; j++) {
+
+          var max = 1.1;
+          var min = 0.9;
+          var r = Math.random() * (max - min) + min;
+
           var val = input[i+50].value[j];
           input[i+50].value[j] = val * r;
 
@@ -88,10 +90,33 @@
     // Normalized data
     data = applyOffset(data);
     data = normalize(data);
-    console.log(data.length);
+
+    // Performance
+    function showPaintTimings() {
+      if (window.performance) {
+        let performance = window.performance;
+        let performanceEntries = performance.getEntriesByType('paint');
+        performanceEntries.forEach( (performanceEntry, i, entries) => {
+          console.log("The time to " + performanceEntry.name + " was " + performanceEntry.startTime + " milliseconds.");
+        });
+      } else {
+        console.log('Performance timing isn\'t supported.');
+      }
+    }
 
     // Updates attributes in graph
     function modifyGraph() {
+      var event = new Event('build');
+
+      // Listen for the event.
+      addEventListener("build", function(e) {
+        let now = new Date().getTime();
+        let loadingTime = now - performance.timing.navigationStart;
+        console.log("New test: " + loadingTime + " ms");
+      }, false);
+
+
+      
       // Target group element
       var svgElement = document.getElementById("diagram"); // get the parent node
       //console.log(svgElement);
@@ -102,20 +127,30 @@
 
       var startDate = new Date();
       var t0 = performance.now();
+      //showPaintTimings();
       // Change opacity
-      for (var i = 0; i < polylines.length; i++)
+      var polyLength = polylines.length;
+      for (var i = 0; i < polyLength; i++)
       { 
         //polylines[i].setAttribute("opacity", 0.1);
         //polylines[i].setAttribute("fill-opacity", 0.1);
-        polylines[i].setAttribute("stroke-opacity", 0.3);
+        polylines[i].setAttribute("stroke-opacity", 0.1);
         //console.log(polylines[i]);
       }
+      
       var t1 = performance.now();
-      console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
+      console.log("Performance now: " + (t1 - t0) + " MS");
       var endDate = new Date();
-      var seconds = (endDate.getTime() - startDate.getTime()) / 1000;
-      console.log("Seconds: " + seconds);
+      var seconds = (endDate.getTime() - startDate.getTime());
+      console.log("MS: " + seconds);
+      
+
+       // Dispatch the event.
+       dispatchEvent(event);
+
     }
+
+
 
     // Returns data in string (attr points)
     function polyData(index) {
@@ -202,7 +237,13 @@
       console.log("Contains array lower then 251 values: " + lessThen);
       console.log("Total: " + count);
     }
-    
+
+    //Test
+    function testFunction() {
+      for(var i = 0; i < 10; i++ ){
+        modifyGraph();
+      }
+    }
   </script>
 </head>
 
