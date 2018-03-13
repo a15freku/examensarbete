@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Page Title</title>
+  <title>SVG Diagram</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="../Data/data.js"></script>
   <script type="text/javascript" src="../Data/randomSeed.js"></script>
@@ -30,19 +30,22 @@
     function applyOffset(input) {
       
       var input = input;
+      graphs = 2000 - 50;
 
-      for(var i = 0; i < 450; i++) {
+      for(var i = 0; i < graphs; i++) {
         // Create more data
         var obj = input[i];
         input[i+50] = obj;
 
-        // Apply Offset rand 10%-20%
+        var max = 1.30;
+        var min = 0.70;
+        var r = Math.random() * (max - min) + min;
+
+        // Apply Offset
         for(var j = 0; j < 251; j++) {
-          var max = 2;
-          var min = 1;
           var val = input[i+50].value[j];
-          input[i+50].value[j] = val * (Math.random() * (max - min) + min);
-        
+          input[i+50].value[j] = val * r;
+
         }
 
       }
@@ -55,7 +58,7 @@
     function normalize(input){
       var input = input;
 
-      for(var i = 0; i < 50; i++) {
+      for(var i = 0; i < input.length; i++) {
 
         var length = input[i].value.length;
         var min = 1000000;
@@ -86,30 +89,42 @@
     data = applyOffset(data);
     data = normalize(data);
     console.log(data.length);
-    
-    // Prepare Data
-    function prepData(quantity) {
 
-      // Take data
+    // Updates attributes in graph
+    function modifyGraph() {
+      // Target group element
+      var svgElement = document.getElementById("diagram"); // get the parent node
+      //console.log(svgElement);
 
-      // Apply offset and new offset after each 50 stocks
+      // Select all polylines
+      var polylines = svgElement.getElementsByTagName('polyline'); // get child nodes 
+      //console.log(polylines);
 
-      // Normalize data
-
-      // Return prepared data
+      var startDate = new Date();
+      var t0 = performance.now();
+      // Change opacity
+      for (var i = 0; i < polylines.length; i++)
+      { 
+        //polylines[i].setAttribute("opacity", 0.1);
+        //polylines[i].setAttribute("fill-opacity", 0.1);
+        polylines[i].setAttribute("stroke-opacity", 0.3);
+        //console.log(polylines[i]);
+      }
+      var t1 = performance.now();
+      console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
+      var endDate = new Date();
+      var seconds = (endDate.getTime() - startDate.getTime()) / 1000;
+      console.log("Seconds: " + seconds);
     }
-
-    // Data with offset and normalization
-    //var data = prepData(100);
 
     // Returns data in string (attr points)
     function polyData(index) {
-      var polyData = "";
+      var poly = "";
       for(var i = 0; i < 251; i++) {
-        polyData += (i * 5) + "," + data[index].value[i] * 300 + " "; // Should get data from prepData later
+        poly += (i * 5) + "," + data[index].value[i] * 300 + " "; // Should get data from prepData later
       }
 
-      return polyData;
+      return poly;
     }
 
     // Draw lines in graph
@@ -118,19 +133,9 @@
       polyline.setAttributeNS(null, 'stroke-width', 1);
       polyline.setAttributeNS(null, 'points', polyData);
       polyline.setAttributeNS(null, 'fill', "none");
-      polyline.setAttributeNS(null, 'opacity', 1.0);
+      //polyline.setAttributeNS(null, 'opacity', 1.0);
 
       return polyline;
-    }
-
-    // Updates attributes in graph
-    function modifyGraph() {
-      // Target group element
-
-      // Select all polylines
-
-      // Change opacity
-
     }
 
     function createSVG() {
@@ -148,8 +153,10 @@
 
       // Create group element
       var g = document.createElementNS(xmlns, "g");
-      svgElem.appendChild(g);
       g.setAttributeNS(null, 'transform', 'matrix(1,0,0,-1,0,300)');
+      g.setAttributeNS(null, 'id', 'diagram');
+      svgElem.appendChild(g);
+      
 
       // Draw borders
       var coords = "0,0 0,300 1250,300 1250,0 0,0";
@@ -171,6 +178,11 @@
       // Add SVG element to div-container
       var svgContainer = document.getElementById("svgContainer");
       svgContainer.appendChild(svgElem);
+    }
+
+    // Information
+    function info() {
+      console.log("Total Polylines: " + data.length);
     }
 
     // Test function
