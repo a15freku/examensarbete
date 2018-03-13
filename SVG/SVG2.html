@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="../Data/data.js"></script>
   <script type="text/javascript" src="../Data/randomSeed.js"></script>
+  <script type="text/javascript" src="../Data/stats.js"></script>
   <style>
     #svgContainer {
       width: 1250px;
@@ -16,22 +17,16 @@
     }
   </style>
   <script>
- 
+
     // Retrive JSON object from data.js
     var data = stockObj.data;
-
-
-    // Random seed
-    function randSeed() {
-
-    }
 
     // Creates more data from existing data
     function applyOffset(input) {
       
       var input = input;
       // Set how many graphs should be used
-      graphs = 200 - 50;
+      graphs = 2000 - 50;
 
       for(var i = 0; i < graphs; i++) {
         // Create more data
@@ -91,66 +86,30 @@
     data = applyOffset(data);
     data = normalize(data);
 
-    // Performance
-    function showPaintTimings() {
-      if (window.performance) {
-        let performance = window.performance;
-        let performanceEntries = performance.getEntriesByType('paint');
-        performanceEntries.forEach( (performanceEntry, i, entries) => {
-          console.log("The time to " + performanceEntry.name + " was " + performanceEntry.startTime + " milliseconds.");
-        });
-      } else {
-        console.log('Performance timing isn\'t supported.');
-      }
-    }
-
     // Updates attributes in graph
     function modifyGraph() {
-      var event = new Event('build');
-
-      // Listen for the event.
-      addEventListener("build", function(e) {
-        let now = new Date().getTime();
-        let loadingTime = now - performance.timing.navigationStart;
-        console.log("New test: " + loadingTime + " ms");
-      }, false);
-
-
-      
       // Target group element
       var svgElement = document.getElementById("diagram"); // get the parent node
-      //console.log(svgElement);
 
       // Select all polylines
       var polylines = svgElement.getElementsByTagName('polyline'); // get child nodes 
-      //console.log(polylines);
-
+      
+      // Start time for testing
       var startDate = new Date();
-      var t0 = performance.now();
-      //showPaintTimings();
+
       // Change opacity
       var polyLength = polylines.length;
       for (var i = 0; i < polyLength; i++)
       { 
-        //polylines[i].setAttribute("opacity", 0.1);
+        polylines[i].setAttribute("opacity", 0);
         //polylines[i].setAttribute("fill-opacity", 0.1);
-        polylines[i].setAttribute("stroke-opacity", 0.1);
-        //console.log(polylines[i]);
+        //polylines[i].setAttribute("stroke-opacity", 0.1);
       }
-      
-      var t1 = performance.now();
-      console.log("Performance now: " + (t1 - t0) + " MS");
+
       var endDate = new Date();
-      var seconds = (endDate.getTime() - startDate.getTime());
-      console.log("MS: " + seconds);
-      
-
-       // Dispatch the event.
-       dispatchEvent(event);
-
+      var milliseconds = (endDate.getTime() - startDate.getTime());
+      console.log("ms: " + milliseconds);
     }
-
-
 
     // Returns data in string (attr points)
     function polyData(index) {
@@ -220,30 +179,14 @@
       console.log("Total Polylines: " + data.length);
     }
 
-    // Test function
-    function test() {
-      var lessThen = false;
-      var count = 0;
-      for(var i = 0; i < data.length; i++) {
-        var test = data[i].value.length;
-        console.log(test);
-        if(test < 251){
-          lessThen = true;
-          console.log(data[i].name);
-          count++;
-          console.log("Found error on iteration/line(-2) in data.js: " + i);
-        }
-      } // End of loop
-      console.log("Contains array lower then 251 values: " + lessThen);
-      console.log("Total: " + count);
-    }
-
-    //Test
+    // Test
     function testFunction() {
       for(var i = 0; i < 10; i++ ){
         modifyGraph();
       }
+      info();
     }
+
   </script>
 </head>
 
