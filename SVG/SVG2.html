@@ -13,54 +13,50 @@
       width: 1250px;
       height: 300px;
       background-color: white;
+      border: solid;
+      border-color: black;
+
     }
   </style>
   <script>
 
     // Retrive JSON object from data.js
     var data = stockObj.data;
+    //data=[data[0],data[1]];
+	  var orgDataLen=data.length;
 
     // Creates more data from existing data
     function applyOffset(input) {
-      
-      var input = input;
       // Set how many graphs should be used
-      graphs = 2000 - 50;
-
-      for(var i = 0; i < graphs; i++) {
+      for(var i = 0; i < 200; i++) {
         // Create more data
-        var obj = input[i];
-        input[i+50] = obj;
-
+        var src = input[i%orgDataLen];
+        var o = new Object();
+        o.name = src.name+i;
+        o.value = [];
+        input[orgDataLen+i] = o;
         // Apply Offset
         for(var j = 0; j < 251; j++) {
 
-          var max = 1.1;
-          var min = 0.9;
+          var max = 1.01;
+          var min = 0.99;
           var r = Math.random() * (max - min) + min;
-
-          var val = input[i+50].value[j];
-          input[i+50].value[j] = val * r;
-
+          o.value[j] = src.value[j] * r;
         }
-
       }
-
-      // Return offsetData
-      return input;
+    // Return offsetData
+    return input;
     }
 
     // New Normalize data function
     function normalize(input){
-      var input = input;
-
       for(var i = 0; i < input.length; i++) {
 
         var length = input[i].value.length;
-        var min = 1000000;
-        var max = -1000000;
+        var min = input[i].value[0];
+        var max = min;
   
-        for(var j = 0; j < length; j++) {
+        for(var j = 1; j < length; j++) {
   
           var val = input[i].value[j];
           min = Math.min(min, val);
@@ -85,7 +81,7 @@
     data = applyOffset(data);
     data = normalize(data);
 
-    // Change opacity from 100% to 0,
+    // Change opacity from 100% to 0%,
     function modifyGraph() {
 
       var svgElement = document.getElementById("diagram"); // get the parent node
@@ -96,20 +92,27 @@
       // Change opacity
       for(var i = 10; i >= 0; i--) {
         for (var j = 0; j < polyLength; j++)
-        { 
+        {
           polylines[j].setAttribute("opacity", i/10);
         }
       }
       var endDate = new Date();
       var milliseconds = (endDate.getTime() - startDate.getTime());
       console.log("ms: " + milliseconds);
+
+      // Reset opacity
+      for (var k = 0; k < polyLength; k++)
+      { 
+        polylines[k].setAttribute("opacity", 1);
+      }
+      
     }
 
     // Returns data in string (attr points)
     function polyData(index) {
       var poly = "";
       for(var i = 0; i < 251; i++) {
-        poly += (i * 5) + "," + data[index].value[i] * 300 + " "; // Should get data from prepData later
+        poly += (i * 5) + "," + data[index].value[i] * 300 + " ";
       }
 
       return poly;
@@ -176,6 +179,7 @@
 
     // Test
     function testFunction() {
+  
       for(var i = 0; i < 20; i++ ){
         console.log("--- Test " + i + " ---");
         modifyGraph();
