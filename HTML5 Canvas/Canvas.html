@@ -32,7 +32,7 @@
     // Creates more data from existing data
     function applyOffset(input) {
       // Set how many graphs should be used
-      for(var i = 0; i < 0; i++) {
+      for(var i = 0; i < 2000; i++) {
         // Create more data
         var src = input[i%orgDataLen];
         var o = new Object();
@@ -87,16 +87,16 @@
 
     // Loop data
     function loopData(data, opacity) {
-      var lengthBetweenPoints = data.length / (data.length / 5);
+      //var lengthBetweenPoints = data.length / (data.length / 5);
       var dataLength = data.length;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for(var j = 0; j < dataLength; j++){
         ctx.beginPath();
         ctx.strokeStyle = "green";
         ctx.moveTo(0, data[j].value[0] * 300);
-        for(var i = 1; i < 250; i++) {
+        for(var i = 1; i < 251; i++) {
           ctx.globalAlpha = opacity;
-          ctx.lineTo(i * lengthBetweenPoints, data[j].value[i] * 300);
+          ctx.lineTo(i * 5, data[j].value[i] * 300);
         }
         ctx.stroke();
         ctx.closePath();
@@ -129,13 +129,13 @@
       }
     }
 
-    function test(tests) {
+    function testFunction(tests) {
       for(var i = 1; i <= tests; i++) {
         var startDate = new Date();
         opacitySlider();
         var endDate = new Date();
-        var seconds = (endDate.getTime() - startDate.getTime()) / 1000;
-        console.log("Test " + i + " Seconds: " + seconds);
+        var milliseconds = endDate.getTime() - startDate.getTime();
+        console.log("Test " + i + " ms: " + milliseconds);
       }
     }
 

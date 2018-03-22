@@ -28,7 +28,7 @@
     // Creates more data from existing data
     function applyOffset(input) {
       // Set how many graphs should be used
-      for(var i = 0; i < 200; i++) {
+      for(var i = 0; i < 2000; i++) {
         // Create more data
         var src = input[i%orgDataLen];
         var o = new Object();
@@ -97,7 +97,7 @@
         }
       }
       var endDate = new Date();
-      var milliseconds = (endDate.getTime() - startDate.getTime());
+      var milliseconds = endDate.getTime() - startDate.getTime();
       console.log("ms: " + milliseconds);
 
       // Reset opacity
@@ -178,10 +178,9 @@
     }
 
     // Test
-    function testFunction() {
+    function testFunction(tests) {
   
-      for(var i = 0; i < 20; i++ ){
-        console.log("--- Test " + i + " ---");
+      for(var i = 0; i < tests; i++ ){
         modifyGraph();
       }
     }
