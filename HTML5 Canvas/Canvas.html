@@ -8,6 +8,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="../Data/data.js"></script>
   <!-- <script type="text/javascript" src="../Data/dataFunctions.js"></script> -->
+
+  <style >
+    canvas {
+    width: 1250px;
+    height: 300px;
+    background-color: white;
+    border: solid;
+    border-color: black;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -16,12 +27,12 @@
     // Retrive JSON object from data.js
     var data = stockObj.data;
 
-    var orgDataLen=data.length;
+    var orgDataLen = data.length;
 
     // Creates more data from existing data
     function applyOffset(input) {
       // Set how many graphs should be used
-      for(var i = 0; i < 200; i++) {
+      for(var i = 0; i < 0; i++) {
         // Create more data
         var src = input[i%orgDataLen];
         var o = new Object();
@@ -75,16 +86,16 @@
     data = normalize(data);
 
     // Loop data
-    function loopData(data) {
+    function loopData(data, opacity) {
       var lengthBetweenPoints = data.length / (data.length / 5);
       var dataLength = data.length;
-
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       for(var j = 0; j < dataLength; j++){
         ctx.beginPath();
         ctx.strokeStyle = "green";
         ctx.moveTo(0, data[j].value[0] * 300);
         for(var i = 1; i < 250; i++) {
-          ctx.globalAlpha = 0.2;
+          ctx.globalAlpha = opacity;
           ctx.lineTo(i * lengthBetweenPoints, data[j].value[i] * 300);
         }
         ctx.stroke();
@@ -95,10 +106,10 @@
 
     var canvas = document.getElementById('canvas');
     ctx = canvas.getContext('2d');
-    canvas.width = 1000;
+    canvas.width = 1250;
     ctx.translate(0, canvas.height);
     ctx.scale(1, -1);
-
+    /*
     // Lines for x and y-axis
     ctx.beginPath();
     ctx.moveTo(0, 0);
@@ -109,15 +120,27 @@
     ctx.lineTo(canvas.width, -300);
     ctx.stroke();
     ctx.closePath();
-
+    */
     
     // Write graphs in diagram
-    for(var k = 0; k < 10; k++) {
-      var startDate = new Date();
-      loopData(data);
-      var endDate = new Date();
-      var seconds = (endDate.getTime() - startDate.getTime()) / 1000;
-      console.log("Seconds: " + seconds);
+    function opacitySlider() {
+      for(var k = 10; k >= 0; k--) {
+        loopData(data, k/10);
+      }
+    }
+
+    function test(tests) {
+      for(var i = 1; i <= tests; i++) {
+        var startDate = new Date();
+        opacitySlider();
+        var endDate = new Date();
+        var seconds = (endDate.getTime() - startDate.getTime()) / 1000;
+        console.log("Test " + i + " Seconds: " + seconds);
+      }
+    }
+
+    function showGraph() {
+      loopData(data,1);
     }
     
   </script>
