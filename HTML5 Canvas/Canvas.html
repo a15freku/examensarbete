@@ -6,52 +6,96 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>HTML5 Canvas</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script type="text/javascript" src="../Data/aaon.js"></script>
-  <script type="text/javascript" src="../Data/abax.js"></script>
+  <script type="text/javascript" src="../Data/data.js"></script>
+  <!-- <script type="text/javascript" src="../Data/dataFunctions.js"></script> -->
 </head>
 
 <body>
   <canvas width="600" height="300" id="canvas"></canvas>
   <script>
-    // Normalize data
-    function normalize(dataInput) {
-      var cnt = dataInput.length;
-      var min = 1000000;
-      var max = -1000000;
-      for (var i = 0; i < cnt; i++) {
-        var val = dataInput[i].Open;
-        min = Math.min(min, val);
-        max = Math.max(max, val);
+    // Retrive JSON object from data.js
+    var data = stockObj.data;
+
+    var orgDataLen=data.length;
+
+    // Creates more data from existing data
+    function applyOffset(input) {
+      // Set how many graphs should be used
+      for(var i = 0; i < 200; i++) {
+        // Create more data
+        var src = input[i%orgDataLen];
+        var o = new Object();
+        o.name = src.name+i;
+        o.value = [];
+        input[orgDataLen+i] = o;
+        // Apply Offset
+        for(var j = 0; j < 251; j++) {
+
+          var max = 1.01;
+          var min = 0.99;
+          var r = Math.random() * (max - min) + min;
+          o.value[j] = src.value[j] * r;
+        }
       }
-      var range = max - min;
-      for (var i = 0; i < cnt; i++) {
-        dataInput[i].normOpen = (dataInput[i].Open - min) / range;
-       // console.log(dataInput[i].Open, dataInput[i].normOpen);
-      }
-      return dataInput;
+    // Return offsetData
+    return input;
     }
+
+    // New Normalize data function
+    function normalize(input){
+      for(var i = 0; i < input.length; i++) {
+
+        var length = input[i].value.length;
+        var min = input[i].value[0];
+        var max = min;
+
+        for(var j = 1; j < length; j++) {
+
+          var val = input[i].value[j];
+          min = Math.min(min, val);
+          max = Math.max(max, val);
+
+        }
+        var range = max - min;
+
+        var normArray = [];
+        for(var k = 0; k < length; k++) {
+
+          normArray.push((input[i].value[k] - min) / range);
+          
+        }
+        input[i].value = normArray;
+      }
+
+      return input;
+    }
+
+    // Normalized data
+    data = applyOffset(data);
+    data = normalize(data);
 
     // Loop data
     function loopData(data) {
       var lengthBetweenPoints = data.length / (data.length / 5);
-      var days = data.length;
-      ctx.beginPath();
-      ctx.strokeStyle = "green";
-      ctx.moveTo(0, data[0].normOpen * 300);
-      for (var i = 1; i < days; i++) {
-        ctx.lineTo(i * lengthBetweenPoints, data[i].normOpen * 300);
-      }
-      ctx.stroke();
-      ctx.closePath();
-    }
+      var dataLength = data.length;
 
-    // Variables
-    var data = normalize(aaon);
-    var data2 = normalize(abax);
+      for(var j = 0; j < dataLength; j++){
+        ctx.beginPath();
+        ctx.strokeStyle = "green";
+        ctx.moveTo(0, data[j].value[0] * 300);
+        for(var i = 1; i < 250; i++) {
+          ctx.globalAlpha = 0.2;
+          ctx.lineTo(i * lengthBetweenPoints, data[j].value[i] * 300);
+        }
+        ctx.stroke();
+        ctx.closePath();
+      }
+
+    }
 
     var canvas = document.getElementById('canvas');
     ctx = canvas.getContext('2d');
-    canvas.width = data.length * 5;
+    canvas.width = 1000;
     ctx.translate(0, canvas.height);
     ctx.scale(1, -1);
 
@@ -66,15 +110,16 @@
     ctx.stroke();
     ctx.closePath();
 
+    
     // Write graphs in diagram
-    var startDate = new Date();
-    for(var i = 0; i < 3000; i++) {
+    for(var k = 0; k < 10; k++) {
+      var startDate = new Date();
       loopData(data);
-      loopData(data2);
+      var endDate = new Date();
+      var seconds = (endDate.getTime() - startDate.getTime()) / 1000;
+      console.log("Seconds: " + seconds);
     }
-    var endDate = new Date();
-    var seconds = (endDate.getTime() - startDate.getTime()) / 1000;
-    console.log("Seconds: " + seconds);
+    
   </script>
 </body>
 
