@@ -32,7 +32,7 @@
     // Creates more data from existing data
     function applyOffset(input) {
       // Set how many graphs should be used
-      for(var i = 0; i < 2000; i++) {
+      for(var i = 0; i < 10000; i++) {
         // Create more data
         var src = input[i%orgDataLen];
         var o = new Object();
@@ -142,6 +142,7 @@
     function showGraph() {
       loopData(data,1);
     }
+    showGraph();
     
   </script>
 </body>
