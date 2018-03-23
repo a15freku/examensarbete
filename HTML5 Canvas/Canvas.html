@@ -90,12 +90,12 @@
       //var lengthBetweenPoints = data.length / (data.length / 5);
       var dataLength = data.length;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.globalAlpha = opacity;
+      ctx.strokeStyle = "green";
       for(var j = 0; j < dataLength; j++){
         ctx.beginPath();
-        ctx.strokeStyle = "green";
         ctx.moveTo(0, data[j].value[0] * 300);
         for(var i = 1; i < 251; i++) {
-          ctx.globalAlpha = opacity;
           ctx.lineTo(i * 5, data[j].value[i] * 300);
         }
         ctx.stroke();
