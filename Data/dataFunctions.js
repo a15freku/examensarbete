@@ -1,15 +1,16 @@
-var orgDataLen=data.length;
+//var orgDataLen = data.length; // Flytta in i applyoffset?
 
 // Creates more data from existing data
 function applyOffset(input) {
+  var orgDataLen = input.length;
   // Set how many graphs should be used
   for(var i = 0; i < 200; i++) {
     // Create more data
-    var src = input[i%orgDataLen];
+    var src = input[i % orgDataLen];
     var o = new Object();
-    o.name = src.name+i;
+    o.name = src.name + i;
     o.value = [];
-    input[orgDataLen+i] = o;
+    input[orgDataLen + i] = o;
     // Apply Offset
     for(var j = 0; j < 251; j++) {
 
