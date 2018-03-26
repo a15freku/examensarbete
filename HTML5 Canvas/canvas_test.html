@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>HTML5 Canvas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="../Data/data.js"></script>
+  <script type="text/javascript" src="../Data/dataFunctions.js"></script>
+
+  <style>
+    canvas {
+    width: 1250px;
+    height: 300px;
+    background-color: white;
+    border: solid;
+    border-color: black;
+    }
+  </style>
+
+</head>
+
+<body>
+  <canvas width="600" height="300" id="canvas"></canvas>
+  <script>
+    // Retrive JSON object from data.js
+    var data = stockObj.data;
+
+    // Create more data from original data
+    data = applyOffset(data,200);
+
+    // Normalized data
+    data = normalize(data);
+
+    // Draw graph
+    function drawGraph(data, opacity) {
+
+      var dataLength = data.length;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.globalAlpha = opacity;
+      ctx.strokeStyle = "green";
+
+      for(var j = 0; j < dataLength; j++){
+
+        ctx.beginPath();
+        ctx.moveTo(0, data[j].value[0] * 300);
+        for(var i = 1; i < 251; i++) {
+
+          ctx.lineTo(i * 5, data[j].value[i] * 300);
+
+        }
+        ctx.stroke();
+        ctx.closePath();
+      }
+    }
+
+    var canvas = document.getElementById('canvas');
+    ctx = canvas.getContext('2d');
+    canvas.width = 1250;
+    ctx.translate(0, canvas.height);
+    ctx.scale(1, -1);
+    
+    // Simulates a slider for opacity
+    function opacitySlider() {
+      for(var k = 10; k >= 0; k--) {
+
+        drawGraph(data, k/10);
+
+      }
+    }
+
+    // Testing 
+    function testFunction(tests) {
+      for(var i = 1; i <= tests; i++) {
+
+        var startDate = new Date();
+        opacitySlider();
+        var endDate = new Date();
+        var milliseconds = endDate.getTime() - startDate.getTime();
+        console.log("Test " + i + " ms: " + milliseconds);
+
+      }
+    }
+    
+    // Show graph on initial load
+    function showGraph() {
+      drawGraph(data,1);
+    }
+
+    // Display graph
+    showGraph();
+    
+  </script>
+</body>
+
+</html>

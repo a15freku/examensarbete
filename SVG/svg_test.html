@@ -7,7 +7,7 @@
   <title>SVG Diagram</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="../Data/data.js"></script>
-  <script type="text/javascript" src="../Data/randomSeed.js"></script>
+  <script type="text/javascript" src="../Data/dataFunctions.js"></script>
   <style>
     #svgContainer {
       width: 1250px;
@@ -22,74 +22,23 @@
 
     // Retrive JSON object from data.js
     var data = stockObj.data;
-    //data=[data[0],data[1]];
-	  var orgDataLen = data.length;
 
-    // Creates more data from existing data
-    function applyOffset(input) {
-      // Set how many graphs should be used
-      for(var i = 0; i < 10000; i++) {
-        // Create more data
-        var src = input[i%orgDataLen];
-        var o = new Object();
-        o.name = src.name+i;
-        o.value = [];
-        input[orgDataLen+i] = o;
-        // Apply Offset
-        for(var j = 0; j < 251; j++) {
-
-          var max = 1.01;
-          var min = 0.99;
-          var r = Math.random() * (max - min) + min;
-          o.value[j] = src.value[j] * r;
-        }
-      }
-    // Return offsetData
-    return input;
-    }
-
-    // New Normalize data function
-    function normalize(input){
-      for(var i = 0; i < input.length; i++) {
-
-        var length = input[i].value.length;
-        var min = input[i].value[0];
-        var max = min;
+    // data=[data[0], data[1]]; // Will be used later
   
-        for(var j = 1; j < length; j++) {
-  
-          var val = input[i].value[j];
-          min = Math.min(min, val);
-          max = Math.max(max, val);
-
-        }
-        var range = max - min;
-
-        var normArray = [];
-        for(var k = 0; k < length; k++) {
-
-          normArray.push((input[i].value[k] - min) / range);
-          
-        }
-        input[i].value = normArray;
-      }
-
-      return input;
-    }
+    // Create more data from original data
+    data = applyOffset(data,200);
 
     // Normalized data
-    data = applyOffset(data);
     data = normalize(data);
 
-    // Change opacity from 100% to 0%,
+    // Change opacity
     function modifyGraph() {
 
-      var svgElement = document.getElementById("diagram"); // get the parent node
-      var polylines = svgElement.getElementsByTagName('polyline'); // get child nodes 
+      var svgElement = document.getElementById("diagram");
+      var polylines = svgElement.getElementsByTagName('polyline');
       var polyLength = polylines.length;
-
       var startDate = new Date();
-      // Change opacity
+
       for(var i = 10; i >= 0; i--) {
         for (var j = 0; j < polyLength; j++)
         {
@@ -120,11 +69,11 @@
 
     // Draw lines in graph
     function drawGraph(polyline, polyData) {
+
       polyline.setAttributeNS(null, 'stroke', "green");
       polyline.setAttributeNS(null, 'stroke-width', 1);
       polyline.setAttributeNS(null, 'points', polyData);
       polyline.setAttributeNS(null, 'fill', "none");
-      //polyline.setAttributeNS(null, 'opacity', 1.0);
 
       return polyline;
     }
@@ -147,18 +96,6 @@
       g.setAttributeNS(null, 'transform', 'matrix(1,0,0,-1,0,300)');
       g.setAttributeNS(null, 'id', 'diagram');
       svgElem.appendChild(g);
-      
-      /*
-      // Draw borders
-      var coords = "0,0 0,300 1250,300 1250,0 0,0";
-      var path = document.createElementNS (xmlns, "polyline");
-      path.setAttributeNS(null, 'stroke', "black");
-      path.setAttributeNS(null, 'stroke-width', 1);
-      path.setAttributeNS(null, 'points', coords);
-      path.setAttributeNS(null, 'fill', "none");
-      path.setAttributeNS(null, 'opacity', 1.0);
-      g.appendChild(path);
-      */
 
       // Draw lines in graph
       var polyline;
@@ -172,20 +109,15 @@
       svgContainer.appendChild(svgElem);
     }
 
-    // Information
-    function info() {
-      console.log("Total Polylines: " + data.length);
-    }
-
     // Test
     function testFunction(tests) {
   
       for(var i = 0; i < tests; i++ ){
         modifyGraph();
       }
-    }
-   // testFunction();
 
+    }
+    
   </script>
 </head>
 
