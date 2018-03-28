@@ -27,12 +27,14 @@
 
 <body>
   <canvas width="600" height="300" id="canvas"></canvas>
+  <button type="button" onclick="testFunction(10)">Start Test</button>
+  <div id="testStatus">Test not started</div>
   <script>
     // Retrive JSON object from data.js
     var data = stockObj.data;
 
     // Create more data from original data
-    data = applyOffset(data,200);
+    data = applyOffset(data,50);
 
     // Normalized data
     data = normalize(data);
@@ -76,6 +78,8 @@
 
     // Testing 
     function testFunction(tests) {
+      testStatus = document.getElementById("testStatus")
+
       for(var i = 1; i <= tests; i++) {
 
         var startDate = new Date();
@@ -83,9 +87,10 @@
         var endDate = new Date();
         var milliseconds = endDate.getTime() - startDate.getTime();
         sendTest(milliseconds);
-        console.log("Test " + i + " ms: " + milliseconds);
+        //console.log("Test " + i + " ms: " + milliseconds);
       }
-      console.log("Test Completed")
+
+      testStatus.innerHTML = "Test completed. Number of graphs " + data.length;
     }
     
     // Show graph on initial load
