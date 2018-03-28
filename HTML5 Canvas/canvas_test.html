@@ -8,6 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="../Data/data.js"></script>
   <script type="text/javascript" src="../Data/dataFunctions.js"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
 
   <style>
     canvas {
@@ -78,9 +82,10 @@
         opacitySlider();
         var endDate = new Date();
         var milliseconds = endDate.getTime() - startDate.getTime();
+        sendTest(milliseconds);
         console.log("Test " + i + " ms: " + milliseconds);
-
       }
+      console.log("Test Completed")
     }
     
     // Show graph on initial load
@@ -90,8 +95,17 @@
 
     // Display graph
     showGraph();
-    
-  </script>
+
+    // Send testdata
+    function sendTest(testData) {
+      $.ajax({
+        type: "POST",
+        url: "../Data/get_data.php",
+        data: { test: testData }
+      });
+    }
+
+</script>
 </body>
 
 </html>

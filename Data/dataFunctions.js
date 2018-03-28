@@ -26,7 +26,7 @@ function applyOffset(input, quantity) {
   return input;
 }
 
-// New Normalize data function
+// Normalize data
 function normalize(input){
   for(var i = 0; i < input.length; i++) {
 
@@ -54,3 +54,4 @@ function normalize(input){
 
   return input;
 }
+
