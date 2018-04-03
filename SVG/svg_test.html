@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,26 +18,20 @@
       background-color: white;
       border: solid;
       border-color: black;
-
     }
   </style>
-
 </head>
-
 <body onload="createSVG()">
   <div id="svgContainer"></div>
   <button type="button" onclick="testFunction(10)">Start Test</button>
   <div id="testStatus">Test not started</div>
-
   <script>
 
     // Retrive JSON object from data.js
     var data = stockObj.data;
-
-    // data=[data[0], data[1]]; // Will be used later
   
     // Create more data from original data
-    data = applyOffset(data,50);
+    data = applyOffset(data,100);
 
     // Normalized data
     data = normalize(data);
@@ -59,7 +52,6 @@
       }
       var endDate = new Date();
       var milliseconds = endDate.getTime() - startDate.getTime();
-      //console.log("ms: " + milliseconds);
       sendTest(milliseconds);
 
       // Reset opacity
@@ -67,7 +59,6 @@
       { 
         polylines[k].setAttribute("opacity", 1);
       }
-      
     }
 
     // Returns data in string (attr points)
@@ -143,7 +134,5 @@
     }
 
   </script>
-
 </body>
-
 </html>

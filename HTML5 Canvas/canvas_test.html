@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +11,6 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
-
   <style>
     canvas {
     width: 1250px;
@@ -22,19 +20,18 @@
     border-color: black;
     }
   </style>
-
 </head>
-
 <body>
   <canvas width="600" height="300" id="canvas"></canvas>
   <button type="button" onclick="testFunction(10)">Start Test</button>
   <div id="testStatus">Test not started</div>
   <script>
+
     // Retrive JSON object from data.js
     var data = stockObj.data;
 
     // Create more data from original data
-    data = applyOffset(data,50);
+    data = applyOffset(data,100);
 
     // Normalized data
     data = normalize(data);
@@ -87,7 +84,7 @@
         var endDate = new Date();
         var milliseconds = endDate.getTime() - startDate.getTime();
         sendTest(milliseconds);
-        //console.log("Test " + i + " ms: " + milliseconds);
+
       }
 
       testStatus.innerHTML = "Test completed. Number of graphs " + data.length;
@@ -110,7 +107,6 @@
       });
     }
 
-</script>
+  </script>
 </body>
-
 </html>
