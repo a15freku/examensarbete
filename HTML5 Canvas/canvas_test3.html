@@ -29,21 +29,19 @@
 
     // Retrive JSON object from data.js
     var data = stockObj.data;
-    //data=[data[0], data[1]];
-    //data=[data[0]];
+
     // Create more data from original data
-    data = applyOffset(data,0);
+    data = applyOffset(data,1);
 
     // Normalized data
     data = normalize(data);
 
-    // Draw graph (dots)
-    function drawGraph(data) {
+    // Draw graph
+    function drawGraph(data, color) {
 
       var dataLength = data.length;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      //ctx.lineWidth = 1;
-      ctx.strokeStyle = "black";
+      ctx.strokeStyle = color;
 
       for(var j = 0; j < dataLength; j++){
 
@@ -52,10 +50,8 @@
         for(var i = 1; i < 251; i++) {
 
           ctx.lineTo(i * 5, data[j].value[i] * 300);
-          ctx.arc(i * 5, data[j].value[i] * 300,1,0,2*Math.PI);
-          
+
         }
-        
         ctx.stroke();
         ctx.closePath();
       }
@@ -74,7 +70,7 @@
       for(var i = 1; i <= tests; i++) {
 
         var startDate = new Date();
-        drawGraph(data);
+        drawGraph(data, "blue");
         var endDate = new Date();
         var milliseconds = endDate.getTime() - startDate.getTime();
         sendTest(milliseconds);
@@ -86,7 +82,7 @@
     
     // Show graph on initial load
     function showGraph() {
-      drawGraph(data);
+      drawGraph(data, "green");
     }
 
     // Display graph

@@ -71,7 +71,7 @@
       for(var i = 1; i <= tests; i++) {
 
         var startDate = new Date();
-        drawGraph(data, 3);
+        drawGraph(data, 2);
         var endDate = new Date();
         var milliseconds = endDate.getTime() - startDate.getTime();
         sendTest(milliseconds);
@@ -79,11 +79,12 @@
       }
 
       testStatus.innerHTML = "Test completed. Number of graphs " + data.length;
+      
     }
     
     // Show graph on initial load
     function showGraph() {
-      drawGraph(data,3);
+      drawGraph(data,1);
     }
 
     // Display graph
