@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>SVG Diagram</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="../Data/data.js"></script>
+  <script type="text/javascript" src="../Data/dataFunctions.js"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <style>
+    #svgContainer {
+      width: 1250px;
+      height: 300px;
+      background-color: white;
+      border: solid;
+      border-color: black;
+    }
+  </style>
+</head>
+<body onload="createSVG()">
+  <div id="svgContainer"></div>
+  <button type="button" onclick="testFunction(10)">Start Test</button>
+  <div id="testStatus">Test not started</div>
+  <script>
+
+    // Retrive JSON object from data.js
+    var data = stockObj.data;
+    data=[data[0]];
+  
+    // Create more data from original data
+    data = applyOffset(data,0);
+
+    // Normalized data
+    data = normalize(data);
+
+    // Change opacity
+    function modifyGraph() {
+
+      var svgElement = document.getElementById("diagram");
+      var polylines = svgElement.getElementsByTagName('polyline');
+      var polyLength = polylines.length;
+      var startDate = new Date();
+
+      for (var j = 0; j < polyLength; j++)
+      {
+        polylines[j].setAttribute("stroke-width", 2);
+      }
+      
+      var endDate = new Date();
+      var milliseconds = endDate.getTime() - startDate.getTime();
+      sendTest(milliseconds);
+
+      // Reset line width
+      for (var k = 0; k < polyLength; k++)
+      { 
+        polylines[k].setAttribute("stroke-width", 1);
+      }
+    }
+
+    // Returns data in string (attr points)
+    function polyData(index) {
+      var poly = "";
+      for(var i = 0; i < 251; i++) {
+        poly += (i * 5) + "," + data[index].value[i] * 300 + " ";
+      }
+
+      return poly;
+    }
+
+    // Draw lines in graph
+    function drawGraph(polyline, polyData) {
+
+      polyline.setAttributeNS(null, 'stroke', "green");
+      polyline.setAttributeNS(null, 'stroke-width', 1);
+      polyline.setAttributeNS(null, 'points', polyData);
+      polyline.setAttributeNS(null, 'fill', "none");
+
+      return polyline;
+    }
+
+    function createSVG() {
+      var xmlns = "http://www.w3.org/2000/svg";
+
+      // Set height and width
+      var boxWidth = 1250;
+      var boxHeight = 300;
+      
+      // Create SVG root element
+      var svgElem = document.createElementNS(xmlns, "svg");
+      svgElem.setAttributeNS(null, "viewBox", "0 0 " + boxWidth + " " + boxHeight);
+      svgElem.setAttributeNS(null, "width", boxWidth);
+      svgElem.setAttributeNS(null, "height", boxHeight);
+
+      // Create group element
+      var g = document.createElementNS(xmlns, "g");
+      g.setAttributeNS(null, 'transform', 'matrix(1,0,0,-1,0,300)');
+      g.setAttributeNS(null, 'id', 'diagram');
+      svgElem.appendChild(g);
+
+      // Draw lines in graph
+      var polyline;
+      for(var i = 0; i < data.length; i++) {
+        polyline = document.createElementNS(xmlns, "polyline");
+        g.appendChild(drawGraph(polyline, polyData(i)));
+      }
+
+      // Add SVG element to div-container
+      var svgContainer = document.getElementById("svgContainer");
+      svgContainer.appendChild(svgElem);
+    }
+
+    // Test
+    function testFunction(tests) {
+      testStatus = document.getElementById("testStatus")
+
+      for(var i = 0; i < tests; i++ ){
+        modifyGraph();
+      }
+      
+      testStatus.innerHTML = "Test completed, number of graphs " + data.length;
+    }
+    
+    // Send testdata
+    function sendTest(testData) {
+      $.ajax({
+        type: "POST",
+        url: "../Data/get_data.php",
+        data: { test: testData }
+      });
+    }
+
+  </script>
+</body>
+</html>
