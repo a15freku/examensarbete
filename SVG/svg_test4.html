@@ -47,7 +47,7 @@
 
       for (var j = 0; j < polyLength; j++)
       {
-        polylines[j].setAttribute("stroke-width", 2);
+        polylines[j].setAttribute("opacity", 0);
       }
       
       var endDate = new Date();
@@ -57,7 +57,7 @@
       // Reset line width
       for (var k = 0; k < polyLength; k++)
       { 
-        polylines[k].setAttribute("stroke-width", 1);
+        polylines[k].setAttribute("opacity", 1);
       }
     }
 

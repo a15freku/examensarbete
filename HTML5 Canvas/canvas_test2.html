@@ -23,7 +23,7 @@
 </head>
 <body>
   <canvas width="600" height="300" id="canvas"></canvas>
-  <button type="button" onclick="testFunction(10)">Start Test</button>
+  <button type="button" onclick="testFunction(1000)">Start Test</button>
   <div id="testStatus">Test not started</div>
   <script>
 
@@ -31,7 +31,7 @@
     var data = stockObj.data;
 
     // Create more data from original data
-    data = applyOffset(data,1);
+    data = applyOffset(data,10000);
 
     // Normalized data
     data = normalize(data);

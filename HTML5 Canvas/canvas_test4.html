@@ -37,11 +37,12 @@
     data = normalize(data);
 
     // Draw graph
-    function drawGraph(data, color) {
+    function drawGraph(data, opacity) {
 
       var dataLength = data.length;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = color;
+      ctx.globalAlpha = opacity;
+      ctx.strokeStyle = "green";
 
       for(var j = 0; j < dataLength; j++){
 
@@ -70,7 +71,7 @@
       for(var i = 1; i <= tests; i++) {
 
         var startDate = new Date();
-        drawGraph(data, "blue");
+        drawGraph(data, 0);
         var endDate = new Date();
         var milliseconds = endDate.getTime() - startDate.getTime();
         sendTest(milliseconds);
@@ -78,11 +79,12 @@
       }
 
       testStatus.innerHTML = "Test completed. Number of graphs " + data.length;
+      
     }
     
     // Show graph on initial load
     function showGraph() {
-      drawGraph(data, "green");
+      drawGraph(data,1);
     }
 
     // Display graph
