@@ -29,7 +29,6 @@
 
     // Retrive JSON object from data.js
     var data = stockObj.data;
-    //data=[data[0]];
   
     // Create more data from original data
     data = applyOffset(data,10000);
@@ -37,7 +36,7 @@
     // Normalized data
     data = normalize(data);
 
-    // Change line width
+    // Change opacity
     function modifyGraph() {
 
       var svgElement = document.getElementById("diagram");
@@ -47,7 +46,7 @@
 
       for (var j = 0; j < polyLength; j++)
       {
-        polylines[j].setAttribute("opacity", 0);
+        polylines[j].setAttribute("opacity", 0.5);
       }
       
       var endDate = new Date();

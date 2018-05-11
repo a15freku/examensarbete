@@ -71,7 +71,7 @@
       for(var i = 1; i <= tests; i++) {
 
         var startDate = new Date();
-        drawGraph(data, 0);
+        drawGraph(data, 0.5);
         var endDate = new Date();
         var milliseconds = endDate.getTime() - startDate.getTime();
         sendTest(milliseconds);
